@@ -1,0 +1,33 @@
+From c8ee1cfb445b52a9461cf1c238be26a04203064d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Jakub=20Dobr=C3=BD?= <jakub.dobry8@gmail.com>
+Date: Fri, 9 Jun 2023 03:00:33 +1000
+Subject: [PATCH] Revert "Don't lock connections for offline uuid lookup when
+ given uuid is not offline mode"
+
+https://github.com/SpigotMC/BungeeCord/commit/38028e8e903f273f8e89b7c69ff2e254937944e8
+
+diff --git a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
+index a7091ab6..440dba0e 100644
+--- a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
++++ b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
+@@ -634,7 +634,7 @@ public class BungeeCord extends ProxyServer
+ 
+     public UserConnection getPlayerByOfflineUUID(UUID uuid)
+     {
+-        if ( uuid.version() != 3 )
++        if ( false && uuid.version() != 3 )
+         {
+             return null;
+         }
+@@ -771,7 +771,7 @@ public class BungeeCord extends ProxyServer
+     public void addConnection(UserConnection con)
+     {
+         UUID offlineId = con.getPendingConnection().getOfflineId();
+-        if ( offlineId != null && offlineId.version() != 3 )
++        if ( false && offlineId != null && offlineId.version() != 3 )
+         {
+             throw new IllegalArgumentException( "Offline UUID must be a name-based UUID" );
+         }
+-- 
+2.41.0
+
