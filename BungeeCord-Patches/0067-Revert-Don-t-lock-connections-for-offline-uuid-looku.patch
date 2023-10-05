@@ -1,4 +1,4 @@
-From c8ee1cfb445b52a9461cf1c238be26a04203064d Mon Sep 17 00:00:00 2001
+From 92ff2438ea04e2b08ecb27f8ab2cd50814788b3e Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jakub=20Dobr=C3=BD?= <jakub.dobry8@gmail.com>
 Date: Fri, 9 Jun 2023 03:00:33 +1000
 Subject: [PATCH] Revert "Don't lock connections for offline uuid lookup when
