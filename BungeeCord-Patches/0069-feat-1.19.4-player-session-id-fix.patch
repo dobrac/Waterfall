@@ -1,0 +1,23 @@
+From 940c6c67555fecc8eea2e93138292181525e219a Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Miroslav=20S=CC=8Cafa=CC=81r=CC=8C?=
+ <miroslav.safar@znojmo.cz>
+Date: Wed, 22 Nov 2023 15:36:09 +0100
+Subject: [PATCH] feat: 1.19.4 player session id fix
+
+
+diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
+index 0d266998..de4e85a9 100644
+--- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
++++ b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
+@@ -482,7 +482,7 @@ public enum Protocol
+                     PlayerSession.class,
+                     PlayerSession::new,
+                     map( ProtocolConstants.MINECRAFT_1_19_3, 0x20 ),
+-                    map( ProtocolConstants.MINECRAFT_1_20, 0x06 )
++                    map( ProtocolConstants.MINECRAFT_1_19_4, 0x06 )
+             );
+             // QPlay end
+             TO_SERVER.registerPacket(
+-- 
+2.39.2 (Apple Git-143)
+
