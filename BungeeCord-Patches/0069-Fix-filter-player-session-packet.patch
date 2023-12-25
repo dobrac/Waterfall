@@ -1,4 +1,4 @@
-From f2e5957e5d58dd56ca3624218392c9d680209eab Mon Sep 17 00:00:00 2001
+From 5888ff4d4d10c52674d4ee4891c7144b5aa59dfc Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Miroslav=20S=CC=8Cafa=CC=81r=CC=8C?=
  <miroslav.safar@znojmo.cz>
 Date: Mon, 19 Jun 2023 13:56:21 +0200
@@ -6,7 +6,7 @@ Subject: [PATCH] Fix: filter player session packet
 
 
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/AbstractPacketHandler.java b/protocol/src/main/java/net/md_5/bungee/protocol/AbstractPacketHandler.java
-index b3c8c6e2..ad5dd6ab 100644
+index 1fad0818..43842b58 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/AbstractPacketHandler.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/AbstractPacketHandler.java
 @@ -29,6 +29,7 @@ import net.md_5.bungee.protocol.packet.PlayerListHeaderFooter;
@@ -17,7 +17,7 @@ index b3c8c6e2..ad5dd6ab 100644
  import net.md_5.bungee.protocol.packet.PluginMessage;
  import net.md_5.bungee.protocol.packet.Respawn;
  import net.md_5.bungee.protocol.packet.ScoreboardDisplay;
-@@ -248,4 +249,10 @@ public abstract class AbstractPacketHandler
+@@ -257,4 +258,10 @@ public abstract class AbstractPacketHandler
      {
      }
      // Waterfall end
@@ -29,7 +29,7 @@ index b3c8c6e2..ad5dd6ab 100644
 +    // QPlay end
  }
 diff --git a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
-index 82bfc51b..0d266998 100644
+index bd66e7a5..22769c88 100644
 --- a/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 +++ b/protocol/src/main/java/net/md_5/bungee/protocol/Protocol.java
 @@ -37,6 +37,7 @@ import net.md_5.bungee.protocol.packet.PlayerListHeaderFooter;
@@ -40,10 +40,19 @@ index 82bfc51b..0d266998 100644
  import net.md_5.bungee.protocol.packet.PluginMessage;
  import net.md_5.bungee.protocol.packet.Respawn;
  import net.md_5.bungee.protocol.packet.ScoreboardDisplay;
-@@ -476,6 +477,14 @@ public enum Protocol
+@@ -496,6 +497,7 @@ public enum Protocol
                      map( ProtocolConstants.MINECRAFT_1_19, 0x04 ),
                      map( ProtocolConstants.MINECRAFT_1_19_1, 0x05 )
              );
++
+             // Waterfall start
+             TO_SERVER.registerPacket(
+                     net.md_5.bungee.protocol.packet.ClientChatAcknowledgement.class,
+@@ -503,6 +505,16 @@ public enum Protocol
+                     map (ProtocolConstants.MINECRAFT_1_19_3, 0x3)
+             );
+             // Waterfall end
++
 +            // QPlay start
 +            TO_SERVER.registerPacket(
 +                    PlayerSession.class,
@@ -52,6 +61,7 @@ index 82bfc51b..0d266998 100644
 +                    map( ProtocolConstants.MINECRAFT_1_20, 0x06 )
 +            );
 +            // QPlay end
++
              TO_SERVER.registerPacket(
                      TabCompleteRequest.class,
                      TabCompleteRequest::new,
@@ -103,7 +113,7 @@ index 00000000..3c8ee563
 +}
 \ No newline at end of file
 diff --git a/proxy/src/main/java/net/md_5/bungee/connection/UpstreamBridge.java b/proxy/src/main/java/net/md_5/bungee/connection/UpstreamBridge.java
-index b9d250d9..e3170c9c 100644
+index dff5e283..0c0c3d94 100644
 --- a/proxy/src/main/java/net/md_5/bungee/connection/UpstreamBridge.java
 +++ b/proxy/src/main/java/net/md_5/bungee/connection/UpstreamBridge.java
 @@ -37,6 +37,7 @@ import net.md_5.bungee.protocol.packet.KeepAlive;
@@ -114,7 +124,7 @@ index b9d250d9..e3170c9c 100644
  import net.md_5.bungee.protocol.packet.PluginMessage;
  import net.md_5.bungee.protocol.packet.StartConfiguration;
  import net.md_5.bungee.protocol.packet.TabCompleteRequest;
-@@ -392,4 +393,12 @@ public class UpstreamBridge extends PacketHandler
+@@ -402,4 +403,12 @@ public class UpstreamBridge extends PacketHandler
      {
          return "[" + con.getAddress() + "|" + con.getName() + "] -> UpstreamBridge";
      }
@@ -128,5 +138,5 @@ index b9d250d9..e3170c9c 100644
 +    // QPlay end
  }
 -- 
-2.41.0
+2.39.2 (Apple Git-143)
 

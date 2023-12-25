@@ -1,4 +1,4 @@
-From 92ff2438ea04e2b08ecb27f8ab2cd50814788b3e Mon Sep 17 00:00:00 2001
+From f6627a4db2a792af7534915de86844b388f62b17 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jakub=20Dobr=C3=BD?= <jakub.dobry8@gmail.com>
 Date: Fri, 9 Jun 2023 03:00:33 +1000
 Subject: [PATCH] Revert "Don't lock connections for offline uuid lookup when
@@ -7,7 +7,7 @@ Subject: [PATCH] Revert "Don't lock connections for offline uuid lookup when
 https://github.com/SpigotMC/BungeeCord/commit/38028e8e903f273f8e89b7c69ff2e254937944e8
 
 diff --git a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
-index a7091ab6..440dba0e 100644
+index 01c8a172..8786310e 100644
 --- a/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
 +++ b/proxy/src/main/java/net/md_5/bungee/BungeeCord.java
 @@ -634,7 +634,7 @@ public class BungeeCord extends ProxyServer
@@ -20,7 +20,7 @@ index a7091ab6..440dba0e 100644
              return null;
          }
 @@ -771,7 +771,7 @@ public class BungeeCord extends ProxyServer
-     public void addConnection(UserConnection con)
+     public boolean addConnection(UserConnection con)
      {
          UUID offlineId = con.getPendingConnection().getOfflineId();
 -        if ( offlineId != null && offlineId.version() != 3 )
@@ -29,5 +29,5 @@ index a7091ab6..440dba0e 100644
              throw new IllegalArgumentException( "Offline UUID must be a name-based UUID" );
          }
 -- 
-2.41.0
+2.39.2 (Apple Git-143)
 

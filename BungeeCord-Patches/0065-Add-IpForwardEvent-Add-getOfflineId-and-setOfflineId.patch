@@ -1,4 +1,4 @@
-From 03d339d7640017e88a48058fb2278d5b02d493ed Mon Sep 17 00:00:00 2001
+From bdf51136716da1a0b3f97477f0b8242334e7b5ed Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Jakub=20Dobr=C3=BD?= <jakub.dobry8@gmail.com>
 Date: Sat, 12 Nov 2022 11:21:57 +0100
 Subject: [PATCH] Add IpForwardEvent, Add getOfflineId and setOfflineId to
@@ -84,12 +84,12 @@ index 00000000..09faff89
 +    }
 +}
 diff --git a/proxy/src/main/java/net/md_5/bungee/ServerConnector.java b/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
-index 57136c2d..93e6629b 100644
+index 9a22a1f7..ebd9877c 100644
 --- a/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
 +++ b/proxy/src/main/java/net/md_5/bungee/ServerConnector.java
-@@ -16,10 +16,7 @@ import lombok.RequiredArgsConstructor;
- import net.md_5.bungee.api.ChatColor;
+@@ -17,10 +17,7 @@ import net.md_5.bungee.api.ChatColor;
  import net.md_5.bungee.api.ProxyServer;
+ import net.md_5.bungee.api.chat.BaseComponent;
  import net.md_5.bungee.api.config.ServerInfo;
 -import net.md_5.bungee.api.event.ServerConnectEvent;
 -import net.md_5.bungee.api.event.ServerConnectedEvent;
@@ -99,7 +99,7 @@ index 57136c2d..93e6629b 100644
  import net.md_5.bungee.api.score.Objective;
  import net.md_5.bungee.api.score.Score;
  import net.md_5.bungee.api.score.Scoreboard;
-@@ -109,7 +106,10 @@ public class ServerConnector extends PacketHandler
+@@ -110,7 +107,10 @@ public class ServerConnector extends PacketHandler
  
          if ( BungeeCord.getInstance().config.isIpForward() && user.getSocketAddress() instanceof InetSocketAddress )
          {
@@ -112,22 +112,23 @@ index 57136c2d..93e6629b 100644
              LoginResult profile = user.getPendingConnection().getLoginProfile();
  
 diff --git a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
-index c3f5db1a..1958afe8 100644
+index a9358a51..2c6faa46 100644
 --- a/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
 +++ b/proxy/src/main/java/net/md_5/bungee/connection/InitialHandler.java
-@@ -536,7 +536,10 @@ public class InitialHandler extends PacketHandler implements PendingConnection
+@@ -534,7 +534,11 @@ public class InitialHandler extends PacketHandler implements PendingConnection
  
      private void finish()
      {
--        offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) );
+-        offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( StandardCharsets.UTF_8 ) );
 +        if ( offlineId == null )
 +        {
-+            offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( Charsets.UTF_8 ) );
++            offlineId = UUID.nameUUIDFromBytes( ( "OfflinePlayer:" + getName() ).getBytes( StandardCharsets.UTF_8 ) );
 +        }
++
          if ( uniqueId == null )
          {
              uniqueId = offlineId;
-@@ -740,6 +743,19 @@ public class InitialHandler extends PacketHandler implements PendingConnection
+@@ -739,6 +743,19 @@ public class InitialHandler extends PacketHandler implements PendingConnection
          this.uniqueId = uuid;
      }
  
@@ -148,5 +149,5 @@ index c3f5db1a..1958afe8 100644
      public String getUUID()
      {
 -- 
-2.41.0
+2.39.2 (Apple Git-143)
 
